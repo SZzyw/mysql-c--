@@ -30,6 +30,9 @@ MySql::~MySql()
 
 void MySql::mysqlInsert(std::string str)
 {
+    if (getMysql() == false)
+        return;
+
     int ret = mysql_query(mysql, str.c_str());
     if (ret != 0)
     {
@@ -41,6 +44,9 @@ void MySql::mysqlInsert(std::string str)
 
 void MySql::mysqlUpdate(std::string str)
 {
+    if (getMysql() == false)
+        return;
+
     int ret = mysql_query(mysql, str.c_str());
     if (ret != 0)
     {
@@ -53,6 +59,9 @@ void MySql::mysqlUpdate(std::string str)
 std::vector<std::vector<std::string>> MySql::mysqlQuery(std::string str)
 {
     std::vector<std::vector<std::string>> result;
+
+    if (getMysql() == false)
+        return result;
 
     int ret = mysql_query(mysql, str.c_str());
     if (ret != 0)
@@ -87,6 +96,9 @@ std::vector<std::vector<std::string>> MySql::mysqlQuery(std::string str)
 
 void MySql::mysqlDelete(std::string str)
 {
+    if (getMysql() == false)
+        return;
+
     int ret = mysql_query(mysql, str.c_str());
     if (ret != 0)
     {
@@ -94,4 +106,14 @@ void MySql::mysqlDelete(std::string str)
         return;
     }
     std::cout << "delete success!" << std::endl;
+}
+
+bool MySql::getMysql()
+{
+    if (mysql == nullptr)
+    {
+        std::cout << "mysql is nullptr" << std::endl;
+        return false;
+    }
+    return true;
 }
